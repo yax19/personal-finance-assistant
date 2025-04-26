@@ -1,0 +1,29 @@
+<h1>Dashboard</h1>
+<a href="/dashboard/add">Add Transaction</a>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Amount</th>
+      <th>Category</th>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% transactions.forEach(transaction => { %>
+      <tr>
+        <td><%= transaction.type %></td>
+        <td><%= transaction.amount %></td>
+        <td><%= transaction.category %></td>
+        <td><%= transaction.date.toLocaleDateString() %></td>
+        <td><%= transaction.description %></td>
+        <td>
+          <a href="/dashboard/edit/<%= transaction._id %>">Edit</a>
+          <a href="/dashboard/delete/<%= transaction._id %>">Delete</a>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
