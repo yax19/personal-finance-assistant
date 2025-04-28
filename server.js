@@ -8,8 +8,9 @@ const path = require('path');
 dotenv.config();
 
 // Debugging: Log environment variables
-console.log('MONGODB_URI:', process.env.MONGODB_URI);
+console.log('MONGODB_URL:', process.env.MONGODB_URL);
 console.log('SESSION_SECRET:', process.env.SESSION_SECRET);
+console.log('PORT:', process.env.PORT);
 
 // Initialize Express app
 const app = express();
@@ -30,32 +31,49 @@ app.use(session({
   }
 }));
 
+// New middleware to pass user to view
+const passUserToView = (req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+};
+
+// Use the new passUserToView middleware
+app.use(passUserToView);
+
 // Routes
-const authRoutes = require('./routes/auth');
-const transactionRoutes = require('./routes/transactions');
+const authController = require('./controllers/authController');
+const transactionsController = require('./controllers/transactionsController');
+const isSignedIn = require('./middleware/isSignedIn');
 
-app.use('/', authRoutes);
-app.use('/dashboard', transactionRoutes);
-
-// Home route
 app.get('/', (req, res) => {
-  res.render('index');
+  // Check if the user is signed in
+  if (req.session.user) {
+    // Redirect signed-in users to their transactions dashboard
+    res.redirect(`/users/${req.session.user._id}/transactions`);
+  } else {
+    // Show the homepage for users who are not signed in
+    res.render('index.ejs');
+  }
 });
 
+app.use('/auth', authController);
+app.use(isSignedIn); // Use new isSignedIn middleware here
+app.use('/users/:userId/transactions', transactionsController); // New!
+
 // Connect to MongoDB
-if (process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+if (process.env.MONGODB_URL) {
+  mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
       console.log('Connected to MongoDB');
       // Start the server
-      const PORT = process.env.PORT || 5000;
+      const PORT = process.env.PORT || 3000;
       app.listen(PORT, () => {
-        console.log(`Server is running on port ${PORT}`);
+        console.log(`The express app is ready on port ${PORT}!`);
       });
     })
     .catch(err => {
       console.error('Failed to connect to MongoDB', err);
     });
 } else {
-  console.error('MONGODB_URI is not defined in the environment variables.');
+  console.error('MONGODB_URL is not defined in the environment variables.');
 }

@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Personal Finance Assistant</title>
-  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <header>
@@ -12,11 +11,11 @@
       <ul>
         <li><a href="/">Home</a></li>
         <% if (user) { %>
-          <li><a href="/dashboard">Dashboard</a></li>
-          <li><a href="/logout">Logout</a></li>
+          <li><a href="/users/<%= user._id %>/transactions">Dashboard</a></li>
+          <li><a href="/auth/logout">Logout</a></li>
         <% } else { %>
-          <li><a href="/register">Register</a></li>
-          <li><a href="/login">Login</a></li>
+          <li><a href="/auth/register">Register</a></li>
+          <li><a href="/auth/login">Login</a></li>
         <% } %>
       </ul>
     </nav>
