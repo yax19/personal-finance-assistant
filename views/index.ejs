@@ -6,8 +6,25 @@
     <title>Document</title>
 </head>
 <body>
+    <header>
+        <nav>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <% if (user) { %>
+              <li><a href="/users/<%= user._id %>/transactions">Dashboard</a></li>
+              <li><a href="/auth/logout">Logout</a></li>
+            <% } else { %>
+              <li><a href="/auth/register">Register</a></li>
+              <li><a href="/auth/login">Login</a></li>
+            <% } %>
+          </ul>
+        </nav>
+      </header>
+      
     <h1>Welcome to Personal Finance Assistant</h1>
 <p>Manage your finances with ease.</p>
+
+</form>
 
 
 </body>

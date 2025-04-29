@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h1>Edit Transaction</h1>
-<form action="/dashboard/edit/<%= transaction._id %>" method="POST">
+<h1>Edit Transaction</h1>
+<form action="/users/<%= user._id %>/transactions/edit/<%= transaction._id %>" method="POST">
   <label for="type">Type:</label>
   <select id="type" name="type" required>
     <option value="income" <%= transaction.type === 'income' ? 'selected' : '' %>>Income</option>
@@ -19,8 +11,5 @@
   <input type="text" id="category" name="category" value="<%= transaction.category %>" required>
   <label for="description">Description:</label>
   <input type="text" id="description" name="description" value="<%= transaction.description %>">
-  <button type="submit">Update Transaction</button>
+  <a href="/users/<%= user._id %>/transactions/edit/<%= transaction._id %>" style="display: inline-block; padding: 0.5rem 1rem; background-color: #333; color: #fff; text-decoration: none; border-radius: 5px;">Update Transaction</a>
 </form>
-
-</body>
-</html>

@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <h1>Dashboard</h1>
-<a href="/dashboard/add">Add Transaction</a>
-<table>
+<h1>Dashboard</h1>
+<a href="/users/<%= user._id %>/transactions/add" style="display: inline-block; padding: 0.5rem 1rem; background-color: #333; color: #fff; text-decoration: none; border-radius: 5px;">Add Transaction</a>
+<table border="1">
   <thead>
     <tr>
       <th>Type</th>
@@ -28,13 +20,10 @@
         <td><%= transaction.date.toLocaleDateString() %></td>
         <td><%= transaction.description %></td>
         <td>
-          <a href="/dashboard/edit/<%= transaction._id %>">Edit</a>
-          <a href="/dashboard/delete/<%= transaction._id %>">Delete</a>
+          <a href="/users/<%= user._id %>/transactions/edit/<%= transaction._id %>" style="margin-right: 0.5rem; color: #333; text-decoration: none;">Edit</a>
+          <a href="/users/<%= user._id %>/transactions/delete/<%= transaction._id %>" style="color: #333; text-decoration: none;">Delete</a>
         </td>
       </tr>
     <% }) %>
   </tbody>
 </table>
-
-</body>
-</html>
