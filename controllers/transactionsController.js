@@ -6,7 +6,11 @@ const Transaction = require('../models/Transaction');
 router.get('/', async (req, res) => {
   try {
     const transactions = await Transaction.find({ user: req.params.userId });
-    res.render('dashboard', { transactions });
+    const totalIncome = transactions.filter(t => t.type === 'income').reduce((sum, t) => sum + t.amount, 0);
+    const totalExpenses = transactions.filter(t => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0);
+    const totalBalance = totalIncome - totalExpenses;
+    const totalSavings = totalBalance; // Assuming savings is the remaining balance
+    res.render('dashboard', { transactions, totalBalance, totalIncome, totalExpenses, totalSavings });
   } catch (error) {
     res.status(400).json({ message: 'Failed to fetch transactions', error: error.message });
   }

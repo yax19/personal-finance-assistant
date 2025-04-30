@@ -4,22 +4,11 @@ const session = require('express-session');
 const dotenv = require('dotenv');
 const path = require('path');
 
-
-// Routes
-const authController = require('./controllers/authController');
-const transactionsController = require('./controllers/transactionsController');
-const isSignedIn = require('./middleware/isSignedIn');
-
 // Load environment variables
 dotenv.config();
 
 // Debugging: Log environment variables
-mongoose.connect(process.env.MONGODB_URI);
-
-mongoose.connection.on('connected', () => {
-  console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
-});
-
+console.log('MONGODB_URL:', process.env.MONGODB_URL);
 console.log('SESSION_SECRET:', process.env.SESSION_SECRET);
 console.log('PORT:', process.env.PORT);
 
@@ -31,26 +20,31 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
+// Session setup
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+  }
+}));
 
 // New middleware to pass user to view
 const passUserToView = (req, res, next) => {
-  res.locals.user = req.session.user ? req.session.user : null;
+  res.locals.user = req.session.user;
   next();
 };
-
-module.exports = passUserToView;
 
 // Use the new passUserToView middleware
 app.use(passUserToView);
 
+// Routes
+const authController = require('./controllers/authController');
+const transactionsController = require('./controllers/transactionsController');
+const isSignedIn = require('./middleware/isSignedIn');
 
 app.get('/', (req, res) => {
   // Check if the user is signed in
@@ -59,7 +53,7 @@ app.get('/', (req, res) => {
     res.redirect(`/users/${req.session.user._id}/transactions`);
   } else {
     // Show the homepage for users who are not signed in
-    res.render('index.ejs');
+    res.render('index');
   }
 });
 
@@ -68,8 +62,8 @@ app.use(isSignedIn); // Use new isSignedIn middleware here
 app.use('/users/:userId/transactions', transactionsController); // New!
 
 // Connect to MongoDB
-if (process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+if (process.env.MONGODB_URL) {
+  mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
       console.log('Connected to MongoDB');
       // Start the server
@@ -82,5 +76,5 @@ if (process.env.MONGODB_URI) {
       console.error('Failed to connect to MongoDB', err);
     });
 } else {
-  console.error('MONGODB_URI is not defined in the environment variables.');
+  console.error('MONGODB_URL is not defined in the environment variables.');
 }

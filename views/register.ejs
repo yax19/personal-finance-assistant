@@ -3,18 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Personal Finance Assistant - Register</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f4f4f4;
+    }
+    .register-container {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    .register-container h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .register-container form {
+      display: flex;
+      flex-direction: column;
+    }
+    .register-container label {
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+    .register-container input {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .register-container button {
+      padding: 0.7rem 1.5rem;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .register-container button:hover {
+      background-color: #555;
+    }
+  </style>
 </head>
 <body>
-  <h1>Register</h1>
-<form action="/register" method="POST">
-  <label for="username">Username:</label>
-  <input type="text" id="username" name="username" required>
-  <label for="email">Email:</label>
-  <input type="email" id="email" name="email" required>
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" required>
-  <button type="submit">Register</button>
-</form>
+  <div class="register-container">
+    <h2>Register</h2>
+    <form action="/auth/register" method="POST">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit">Register</button>
+    </form>
+    <p style="text-align: center; margin-top: 1rem;">Already have an account? <a href="/auth/login">Login</a></p>
+  </div>
 </body>
 </html>

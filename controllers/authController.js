@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
     const user = new User({ username, email, password });
     await user.save();
     req.session.user = user;
-    res.redirect('/');
+    res.redirect('/users/' + user._id + '/transactions'); // Redirect to dashboard after registration
   } catch (error) {
     res.status(400).json({ message: 'Registration failed', error: error.message });
   }
@@ -31,7 +31,7 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ email }).select('+password');
     if (user && (await user.matchPassword(password))) {
       req.session.user = user;
-      res.redirect('/');
+      res.redirect('/users/' + user._id + '/transactions'); // Redirect to dashboard after login
     } else {
       res.status(401).json({ message: 'Invalid email or password' });
     }
