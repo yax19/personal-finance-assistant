@@ -5,7 +5,7 @@ Personal Finance Assistant is a web application that helps users manage their pe
 
 ## Getting Started
 - [Live Demo](https://your-deployed-app-url.com)
-- [Planning Materials](https:/https://excalidraw.com)
+- [Planning Materials](https://excalidraw.com/)
 
 ## Technologies Used
 - Node.js
@@ -13,6 +13,7 @@ Personal Finance Assistant is a web application that helps users manage their pe
 - MongoDB
 - EJS
 - CSS
+- HTML
 
 ## Next Steps
 - Implement budgeting features
