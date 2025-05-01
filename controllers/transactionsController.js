@@ -53,7 +53,7 @@ router.post('/edit/:id', async (req, res) => {
 });
 
 // Delete a transaction
-router.get('/delete/:id', async (req, res) => {
+router.post('/delete/:id', async (req, res) => {
   try {
     await Transaction.findByIdAndDelete(req.params.id);
     res.redirect(`/users/${req.params.userId}/transactions`);

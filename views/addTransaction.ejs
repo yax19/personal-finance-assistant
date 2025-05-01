@@ -3,24 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>FinTrack - Add Transaction</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+    }
+    .add-transaction-container {
+      background-color: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .add-transaction-container h2 {
+      margin-bottom: 1rem;
+    }
+    .add-transaction-container form {
+      display: flex;
+      flex-direction: column;
+    }
+    .add-transaction-container label {
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      text-align: left;
+    }
+    .add-transaction-container input,
+    .add-transaction-container select {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+    }
+    .add-transaction-container button {
+      padding: 0.7rem 1.5rem;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .add-transaction-container button:hover {
+      background-color: #555;
+    }
+  </style>
 </head>
 <body>
-  
+  <div class="add-transaction-container">
+    <h2>Add Transaction</h2>
+    <form action="/users/<%= user._id %>/transactions/add" method="POST">
+      <label for="type">Type:</label>
+      <select id="type" name="type" required>
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+      </select>
+      <label for="amount">Amount:</label>
+      <input type="number" id="amount" name="amount" required>
+      <label for="category">Category:</label>
+      <input type="text" id="category" name="category" required>
+      <label for="description">Description:</label>
+      <input type="text" id="description" name="description">
+      <button type="submit">Add Transaction</button>
+      
+    </form>
+  </div>
 </body>
 </html>
-<h1>Add Transaction</h1>
-<form action="/users/<%= user._id %>/transactions/add" method="POST">
-  <label for="type">Type:</label>
-  <select id="type" name="type" required>
-    <option value="income">Income</option>
-    <option value="expense">Expense</option>
-  </select>
-  <label for="amount">Amount:</label>
-  <input type="number" id="amount" name="amount" required>
-  <label for="category">Category:</label>
-  <input type="text" id="category" name="category" required>
-  <label for="description">Description:</label>
-  <input type="text" id="description" name="description">
-  <a href="/users/<%= user._id %>/transactions/add" style="display: inline-block; padding: 0.5rem 1rem; background-color: #333; color: #fff; text-decoration: none; border-radius: 5px;">Add Transaction</a>
-</form>
